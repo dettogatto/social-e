@@ -1,4 +1,4 @@
-import { Route } from "wouter";
+import { Route, Switch } from "wouter";
 import "./App.css";
 import "./helpers/firebase";
 import Home from "./pages/Home";
@@ -8,6 +8,7 @@ import Video from "./pages/Video";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./helpers/firebase";
 import AdminBar from "./components/AdminBar";
+import BottomBar from "./components/BottomBar";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { auth } from "./helpers/firebase";
 
@@ -17,18 +18,24 @@ function App() {
   return (
     <>
       {user && <AdminBar />}
-      <Route path="/">
-        <Home />
-      </Route>
-      <Route path="/admin">
-        <Login />
-      </Route>
-      <Route path="/foto">
-        <Foto />
-      </Route>
-      <Route path="/video">
-        <Video />
-      </Route>
+      <Switch>
+        <Route path="/admin">
+          <Login />
+          <BottomBar />
+        </Route>
+        <Route path="/foto">
+          <Foto />
+          <BottomBar activeElement="foto" />
+        </Route>
+        <Route path="/video">
+          <Video />
+          <BottomBar activeElement="video" />
+        </Route>
+        <Route>
+          <Home />
+          <BottomBar activeElement="home" />
+        </Route>
+      </Switch>
     </>
   );
 }

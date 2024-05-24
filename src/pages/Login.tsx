@@ -38,7 +38,7 @@ const Login = () => {
   if (user) {
     return (
       <div className="page-container">
-        <h1>Social-E - Login</h1>
+        <h1>Login</h1>
         <div>
           <button onClick={signOut}>Sign Out</button>
         </div>
@@ -48,7 +48,7 @@ const Login = () => {
 
   return (
     <div className="page-container">
-      <h1>Social-E - Login</h1>
+      <h1>Login</h1>
       <form
         className="login-form"
         onSubmit={(e) => {

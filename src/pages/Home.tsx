@@ -59,65 +59,67 @@ const Home = () => {
   return (
     <div className="page-container">
       <h1>Social-E</h1>
-      {uploaded ? (
-        <h3>File caricato!</h3>
-      ) : file ? (
-        <button className="upload-button" onClick={() => setFile(null)}>
-          <Icon icon="ph:trash" />
-          <h2 color="white">Cancella</h2>
-        </button>
-      ) : (
-        <button
-          className="upload-button"
-          onClick={(e) => {
-            e.preventDefault();
-            inputRef.current?.click();
-          }}
-        >
-          <Icon icon="ph:plus" />
-          <h2 color="white">Contribuisci</h2>
-        </button>
-      )}
-      <input
-        type="file"
-        accept="image/jpeg, image/png, video/mp4"
-        onChange={handleFileChange}
-        className="file-input"
-        ref={inputRef}
-      />
-
-      {!uploading && <FilePreview file={file} />}
-
-      {file && (
-        <button
-          className="upload-button"
-          onClick={handleUpload}
-          disabled={uploading}
-        >
-          <Icon icon="ph:check" />
-          <h2 color="white">
-            {uploading ? "Caricamento in corso..." : "Conferma e carica"}
-          </h2>
-        </button>
-      )}
-      {!file && (
-        <>
+      <div className="homepage-content">
+        {uploaded ? (
+          <h3>File caricato!</h3>
+        ) : file ? (
+          <button className="upload-button" onClick={() => setFile(null)}>
+            <Icon icon="ph:trash" />
+            <h2 color="white">Cancella</h2>
+          </button>
+        ) : (
           <button
             className="upload-button"
-            onClick={() => setLocation("/foto")}
+            onClick={(e) => {
+              e.preventDefault();
+              inputRef.current?.click();
+            }}
           >
-            <Icon icon="ph:image-square" />
-            <h2 color="white">Vai alle foto</h2>
+            <Icon icon="ph:plus" />
+            <h2 color="white">Contribuisci</h2>
           </button>
+        )}
+        <input
+          type="file"
+          accept="image/jpeg, image/png, video/mp4"
+          onChange={handleFileChange}
+          className="file-input"
+          ref={inputRef}
+        />
+
+        {!uploading && <FilePreview file={file} />}
+
+        {file && (
           <button
             className="upload-button"
-            onClick={() => setLocation("video")}
+            onClick={handleUpload}
+            disabled={uploading}
           >
-            <Icon icon="ph:video" />
-            <h2 color="white">Vai ai video</h2>
+            <Icon icon="ph:check" />
+            <h2 color="white">
+              {uploading ? "Caricamento in corso..." : "Conferma e carica"}
+            </h2>
           </button>
-        </>
-      )}
+        )}
+        {!file && (
+          <>
+            <button
+              className="upload-button"
+              onClick={() => setLocation("/foto")}
+            >
+              <Icon icon="ph:image-square" />
+              <h2 color="white">Vai alle foto</h2>
+            </button>
+            <button
+              className="upload-button"
+              onClick={() => setLocation("video")}
+            >
+              <Icon icon="ph:video" />
+              <h2 color="white">Vai ai video</h2>
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

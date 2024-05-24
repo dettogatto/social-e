@@ -34,7 +34,6 @@ const Foto = () => {
 
   return (
     <div className="page-container">
-      <h1>Social-E - Foto</h1>
       {collectionValue && (
         <Masonry columnsCount={columnsCount} gutter="10px">
           {collectionValue?.docs.map((doc) => {
