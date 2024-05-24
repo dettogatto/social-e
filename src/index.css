@@ -11,10 +11,8 @@
 
   color-scheme: light;
 
-  /* --primary-color: #D40072;
-  --background-color: #fff; */
-  --primary-color: #fff;
-  --background-color: #D40072;
+  --primary-color: #D40072;
+  --background-color: #fff;
 
   background-color: var(--background-color);
 

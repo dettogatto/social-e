@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
-import { useLocation } from "wouter";
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { storage, db } from "../helpers/firebase";
 import { ref as storageRef } from "firebase/storage";
@@ -14,7 +13,6 @@ const Home = () => {
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
 
-  const [, setLocation] = useLocation();
   const [uploadFile] = useUploadFile();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,11 +78,11 @@ const Home = () => {
       <h1>Social-E</h1>
       <div className="homepage-content">
         {uploaded ? (
-          <h3>File caricato!</h3>
+          <h3>File uploaded!</h3>
         ) : file ? (
           <button className="upload-button" onClick={() => setFile(null)}>
             <Icon icon="ph:trash" />
-            <h2>Cancella</h2>
+            <h2>Delete</h2>
           </button>
         ) : (
           <button
@@ -95,7 +93,7 @@ const Home = () => {
             }}
           >
             <Icon icon="ph:plus" />
-            <h2>Contribuisci</h2>
+            <h2>Upload your memory</h2>
           </button>
         )}
         <input
@@ -108,35 +106,17 @@ const Home = () => {
 
         {!uploading && <FilePreview file={file} />}
 
-        {file && (
+        {file ? (
           <button
             className="upload-button"
             onClick={handleUpload}
             disabled={uploading}
           >
             <Icon icon="ph:check" />
-            <h2>
-              {uploading ? "Caricamento in corso..." : "Conferma e carica"}
-            </h2>
+            <h2>{uploading ? "Uploading..." : "Upload!"}</h2>
           </button>
-        )}
-        {!file && (
-          <>
-            <button
-              className="upload-button"
-              onClick={() => setLocation("/foto")}
-            >
-              <Icon icon="ph:image-square" />
-              <h2>Vai alle foto</h2>
-            </button>
-            <button
-              className="upload-button"
-              onClick={() => setLocation("video")}
-            >
-              <Icon icon="ph:video" />
-              <h2>Vai ai video</h2>
-            </button>
-          </>
+        ) : (
+          <img className="qr-image" src="/qr.png" alt="qr code" />
         )}
       </div>
     </div>

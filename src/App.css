@@ -101,3 +101,10 @@
     transform: rotate(360deg);
   }
 }
+
+.qr-image {
+  width: 100%;
+  max-width: 22rem;
+  max-height: 22rem;
+  margin-top: 4rem;
+}
