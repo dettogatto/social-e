@@ -1,15 +1,15 @@
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, orderBy, query } from "firebase/firestore";
-import { db } from "../helpers/firebase";
+import { QuerySnapshot } from "firebase/firestore";
 import ImagePreview from "../components/ImagePreview";
 import Masonry from "react-responsive-masonry";
 import { useEffect, useMemo, useState } from "react";
 import Spinner from "../components/Spinner";
 
-const Foto = () => {
-  const [collectionValue, loading] = useCollection(
-    query(collection(db, "foto"), orderBy("timestamp", "desc"))
-  );
+type FotoPageProps = {
+  collectionValue: QuerySnapshot | undefined;
+  loading: boolean;
+};
+
+const Foto = ({ collectionValue, loading }: FotoPageProps) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {

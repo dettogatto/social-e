@@ -1,3 +1,5 @@
+import { Link } from "wouter";
+
 type BottomBarProps = {
   activeElement?: "foto" | "video" | "home";
 };
@@ -10,21 +12,21 @@ const BottomBar = ({ activeElement }: BottomBarProps) => {
           activeElement === "foto" ? "active" : ""
         }`}
       >
-        <a href="/foto">Foto</a>
+        <Link href="/foto">Foto</Link>
       </div>
       <div
         className={`bottom-bar__item big ${
           activeElement === "home" ? "active" : ""
         }`}
       >
-        <a href="/">E</a>
+        <Link href="/">E</Link>
       </div>
       <div
         className={`bottom-bar__item ${
           activeElement === "video" ? "active" : ""
         }`}
       >
-        <a href="/video">Video</a>
+        <Link href="/video">Video</Link>
       </div>
     </div>
   );

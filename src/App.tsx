@@ -9,11 +9,21 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./helpers/firebase";
 import AdminBar from "./components/AdminBar";
 import BottomBar from "./components/BottomBar";
+import { useCollection } from "react-firebase-hooks/firestore";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { auth } from "./helpers/firebase";
+import { collection, orderBy, query } from "firebase/firestore";
+import { db } from "./helpers/firebase";
 
 function App() {
   const [user] = useAuthState(auth);
+
+  const [fotoCollectionValue, fotoLoading] = useCollection(
+    query(collection(db, "foto"), orderBy("timestamp", "desc"))
+  );
+  const [videoCollectionValue, videoLoading] = useCollection(
+    query(collection(db, "video"), orderBy("timestamp", "desc"))
+  );
 
   return (
     <>
@@ -24,11 +34,14 @@ function App() {
           <BottomBar />
         </Route>
         <Route path="/foto">
-          <Foto />
+          <Foto collectionValue={fotoCollectionValue} loading={fotoLoading} />
           <BottomBar activeElement="foto" />
         </Route>
         <Route path="/video">
-          <Video />
+          <Video
+            collectionValue={videoCollectionValue}
+            loading={videoLoading}
+          />
           <BottomBar activeElement="video" />
         </Route>
         <Route>

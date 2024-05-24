@@ -1,15 +1,15 @@
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, orderBy, query } from "firebase/firestore";
-import { db } from "../helpers/firebase";
+import { QuerySnapshot } from "firebase/firestore";
 import Masonry from "react-responsive-masonry";
 import { useEffect, useMemo, useState } from "react";
 import VideoPreview from "../components/VideoPreview";
 import Spinner from "../components/Spinner";
 
-const Video = () => {
-  const [collectionValue, loading] = useCollection(
-    query(collection(db, "video"), orderBy("timestamp", "desc"))
-  );
+type VideoPageProps = {
+  collectionValue: QuerySnapshot | undefined;
+  loading: boolean;
+};
+
+const Video = ({ collectionValue, loading }: VideoPageProps) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
