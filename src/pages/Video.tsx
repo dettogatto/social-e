@@ -33,7 +33,7 @@ const Video = () => {
     return 4;
   }, [windowWidth]);
 
-  if (loading) {
+  if (!collectionValue && loading) {
     return <Spinner />;
   }
 

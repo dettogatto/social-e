@@ -33,7 +33,7 @@ const Foto = () => {
     return 5;
   }, [windowWidth]);
 
-  if (loading) {
+  if (!collectionValue && loading) {
     return <Spinner />;
   }
 
