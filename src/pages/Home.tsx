@@ -6,6 +6,7 @@ import { storage, db } from "../helpers/firebase";
 import { ref as storageRef } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import { v4 } from "uuid";
+import { resizeImage } from "../helpers/resize-image";
 
 const Home = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -25,20 +26,38 @@ const Home = () => {
     if (!file) {
       return;
     }
-    if (file.size > 30 * 1024 * 1024) {
-      // 30 MB
+    if (file.size > 100 * 1024 * 1024) {
+      // 100 MB
       alert("File troppo grande. Selezionane una altro e riprova.");
       return;
     }
     setUploading(true);
-    const coll = file.type.startsWith("image/") ? "foto" : "video";
+    const coll = file.type.startsWith("image/")
+      ? "foto"
+      : file.type.startsWith("video/")
+      ? "video"
+      : null;
+    if (!coll) {
+      console.error("Invalid file type", file.type);
+      alert("Tipo di file non supportato. Riprova.");
+      setUploading(false);
+      return;
+    }
+    const fileToUpload =
+      coll === "foto" ? await resizeImage({ file, maxSize: 2000 }) : file;
+    if (!fileToUpload) {
+      console.error("Resize failed", file);
+      alert("Errore durante il caricamento. Riprova.");
+      setUploading(false);
+      return;
+    }
     // upload file
     const uuid = v4();
     const ref = storageRef(storage, coll + "/" + uuid);
-    const result = await uploadFile(ref, file);
+    const result = await uploadFile(ref, fileToUpload);
     const path = result?.metadata.fullPath;
     if (!path) {
-      console.error("Upload failed", result);
+      console.error("Upload failed", fileToUpload, result);
       alert("Errore durante il caricamento. Riprova.");
       setUploading(false);
       return;
@@ -65,7 +84,7 @@ const Home = () => {
         ) : file ? (
           <button className="upload-button" onClick={() => setFile(null)}>
             <Icon icon="ph:trash" />
-            <h2 color="white">Cancella</h2>
+            <h2>Cancella</h2>
           </button>
         ) : (
           <button
@@ -76,7 +95,7 @@ const Home = () => {
             }}
           >
             <Icon icon="ph:plus" />
-            <h2 color="white">Contribuisci</h2>
+            <h2>Contribuisci</h2>
           </button>
         )}
         <input
@@ -96,7 +115,7 @@ const Home = () => {
             disabled={uploading}
           >
             <Icon icon="ph:check" />
-            <h2 color="white">
+            <h2>
               {uploading ? "Caricamento in corso..." : "Conferma e carica"}
             </h2>
           </button>
@@ -108,14 +127,14 @@ const Home = () => {
               onClick={() => setLocation("/foto")}
             >
               <Icon icon="ph:image-square" />
-              <h2 color="white">Vai alle foto</h2>
+              <h2>Vai alle foto</h2>
             </button>
             <button
               className="upload-button"
               onClick={() => setLocation("video")}
             >
               <Icon icon="ph:video" />
-              <h2 color="white">Vai ai video</h2>
+              <h2>Vai ai video</h2>
             </button>
           </>
         )}

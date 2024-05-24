@@ -59,18 +59,18 @@
   font-size: 1.2rem;
   text-transform: uppercase;
   font-weight: bold;
-  color: white;
+  color: var(--background-color);
   border-radius: 8px;
 }
 
 .bottom-bar__item a {
-  color: white;
+  color: var(--background-color);
   padding: 0.5rem 1rem;
   border-radius: 4px;
 }
 
 .bottom-bar__item.active a {
-  background-color: white;
+  background-color: var(--background-color);
   color: var(--primary-color);
 }
 
