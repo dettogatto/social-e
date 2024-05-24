@@ -9,3 +9,5 @@ The frontend is built in React + TypeScript + Vite
 2. **User Authentication**: The app includes a secure user authentication for live content moderation.
 
 3. **Image Resizing**: Images get resized before upload to optimize storage and loadig times via a canvas.
+
+![Basic Flow Chart](./git-assets/basic-flow-chart.jpeg)
