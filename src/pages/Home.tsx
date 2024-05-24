@@ -25,14 +25,13 @@ const Home = () => {
     if (!file) {
       return;
     }
-    if (file.size > 40 * 1024 * 1024) {
-      // 40 MB
+    if (file.size > 30 * 1024 * 1024) {
+      // 30 MB
       alert("File troppo grande. Selezionane una altro e riprova.");
       return;
     }
     setUploading(true);
     const coll = file.type.startsWith("image/") ? "foto" : "video";
-    // create reference in db
     // upload file
     const uuid = v4();
     const ref = storageRef(storage, coll + "/" + uuid);
@@ -45,6 +44,7 @@ const Home = () => {
       return;
     }
     console.log("Uploaded", result);
+    // create reference in db
     const docRef = await addDoc(collection(db, coll), {
       path,
       timestamp: new Date(),
@@ -86,7 +86,7 @@ const Home = () => {
         ref={inputRef}
       />
 
-      <FilePreview file={file} />
+      {!uploading && <FilePreview file={file} />}
 
       {file && (
         <button
@@ -96,7 +96,7 @@ const Home = () => {
         >
           <Icon icon="ph:check" />
           <h2 color="white">
-            {uploading ? "Caricamento in corso" : "Conferma e carica"}
+            {uploading ? "Caricamento in corso..." : "Conferma e carica"}
           </h2>
         </button>
       )}

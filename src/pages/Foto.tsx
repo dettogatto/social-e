@@ -31,13 +31,20 @@ const Foto = () => {
     }
     return 5;
   }, [windowWidth]);
+
   return (
     <div className="page-container">
       <h1>Social-E - Foto</h1>
       {collectionValue && (
         <Masonry columnsCount={columnsCount} gutter="10px">
           {collectionValue?.docs.map((doc) => {
-            return <ImagePreview key={doc.id} path={doc.data().path} />;
+            return (
+              <ImagePreview
+                key={doc.id}
+                path={doc.data().path}
+                docRef={doc.ref}
+              />
+            );
           })}
         </Masonry>
       )}

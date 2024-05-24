@@ -37,7 +37,13 @@ const Video = () => {
       {collectionValue && (
         <Masonry columnsCount={columnsCount} gutter="10px">
           {collectionValue?.docs.map((doc) => {
-            return <VideoPreview key={doc.id} path={doc.data().path} />;
+            return (
+              <VideoPreview
+                key={doc.id}
+                path={doc.data().path}
+                docRef={doc.ref}
+              />
+            );
           })}
         </Masonry>
       )}
