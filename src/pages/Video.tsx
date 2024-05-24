@@ -4,9 +4,10 @@ import { db } from "../helpers/firebase";
 import Masonry from "react-responsive-masonry";
 import { useEffect, useMemo, useState } from "react";
 import VideoPreview from "../components/VideoPreview";
+import Spinner from "../components/Spinner";
 
 const Video = () => {
-  const [collectionValue] = useCollection(
+  const [collectionValue, loading] = useCollection(
     query(collection(db, "video"), orderBy("timestamp", "desc"))
   );
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -31,6 +32,11 @@ const Video = () => {
     }
     return 4;
   }, [windowWidth]);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <div className="page-container">
       {collectionValue && (
