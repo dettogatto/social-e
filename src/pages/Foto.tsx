@@ -1,8 +1,9 @@
-import { QuerySnapshot } from "firebase/firestore";
+import { QueryDocumentSnapshot, QuerySnapshot } from "firebase/firestore";
 import ImagePreview from "../components/ImagePreview";
 import Masonry from "react-responsive-masonry";
 import { useEffect, useMemo, useState } from "react";
 import Spinner from "../components/Spinner";
+import Lightbox from "../components/Lightbox";
 
 type FotoPageProps = {
   collectionValue: QuerySnapshot | undefined;
@@ -11,6 +12,9 @@ type FotoPageProps = {
 
 const Foto = ({ collectionValue, loading }: FotoPageProps) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [currentImage, setCurrentImage] =
+    useState<QueryDocumentSnapshot | null>(null);
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -47,10 +51,21 @@ const Foto = ({ collectionValue, loading }: FotoPageProps) => {
                 key={doc.id}
                 path={doc.data().path}
                 docRef={doc.ref}
+                onClick={() => setCurrentImage(doc)}
               />
             );
           })}
         </Masonry>
+      )}
+      {currentImage && (
+        <Lightbox onClose={() => setCurrentImage(null)}>
+          <ImagePreview
+            key={currentImage.id}
+            path={currentImage.data().path}
+            docRef={currentImage.ref}
+            fullScreen
+          />
+        </Lightbox>
       )}
     </div>
   );

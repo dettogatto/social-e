@@ -26,7 +26,7 @@ const Home = () => {
     }
     if (file.size > 100 * 1024 * 1024) {
       // 100 MB
-      alert("File troppo grande. Selezionane una altro e riprova.");
+      alert("File too heavy, choose another and try again.");
       return;
     }
     setUploading(true);
@@ -37,15 +37,15 @@ const Home = () => {
       : null;
     if (!coll) {
       console.error("Invalid file type", file.type);
-      alert("Tipo di file non supportato. Riprova.");
+      alert("Invalid file type. Try again.");
       setUploading(false);
       return;
     }
     const fileToUpload =
-      coll === "foto" ? await resizeImage({ file, maxSize: 2000 }) : file;
+      coll === "foto" ? await resizeImage({ file, maxSize: 3000 }) : file;
     if (!fileToUpload) {
       console.error("Resize failed", file);
-      alert("Errore durante il caricamento. Riprova.");
+      alert("An error occurred during upload. Try again.");
       setUploading(false);
       return;
     }
@@ -56,7 +56,7 @@ const Home = () => {
     const path = result?.metadata.fullPath;
     if (!path) {
       console.error("Upload failed", fileToUpload, result);
-      alert("Errore durante il caricamento. Riprova.");
+      alert("An error occurred during upload. Try again.");
       setUploading(false);
       return;
     }

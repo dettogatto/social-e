@@ -7,9 +7,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 type ImagePreviewProps = {
   path: string;
   docRef: DocumentReference;
+  onClick?: () => void;
+  fullScreen?: boolean;
 };
 
-const ImagePreview = ({ path, docRef }: ImagePreviewProps) => {
+const ImagePreview = ({
+  path,
+  docRef,
+  onClick,
+  fullScreen,
+}: ImagePreviewProps) => {
   const imgRef = ref(storage, path);
   const [imgUrl] = useDownloadURL(imgRef);
   const [user] = useAuthState(auth);
@@ -32,13 +39,18 @@ const ImagePreview = ({ path, docRef }: ImagePreviewProps) => {
   return (
     <img
       src={imgUrl}
-      style={{ width: "100%", display: "block" }}
+      style={{
+        width: "100%",
+        display: "block",
+        maxHeight: fullScreen ? "100dvh" : "auto",
+      }}
       onContextMenu={(e) => {
         e.preventDefault();
         if (user) {
           handleDelete();
         }
       }}
+      onClick={onClick}
     />
   );
 };

@@ -7,9 +7,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 type VideoPreviewProps = {
   path: string;
   docRef: DocumentReference;
+  onClick?: () => void;
+  fullScreen?: boolean;
 };
 
-const VideoPreview = ({ path, docRef }: VideoPreviewProps) => {
+const VideoPreview = ({
+  path,
+  docRef,
+  onClick,
+  fullScreen,
+}: VideoPreviewProps) => {
   const imgRef = ref(storage, path);
   const [imgUrl] = useDownloadURL(imgRef);
   const [user] = useAuthState(auth);
@@ -32,16 +39,21 @@ const VideoPreview = ({ path, docRef }: VideoPreviewProps) => {
     <video
       autoPlay={true}
       loop={true}
-      muted={true}
+      muted={!fullScreen}
       controls={false}
       src={imgUrl}
-      style={{ width: "100%", display: "block" }}
+      style={{
+        width: "100%",
+        display: "block",
+        maxHeight: fullScreen ? "100dvh" : "auto",
+      }}
       onContextMenu={(e) => {
         e.preventDefault();
         if (user) {
           handleDelete();
         }
       }}
+      onClick={onClick}
     />
   );
 };

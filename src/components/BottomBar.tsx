@@ -12,7 +12,7 @@ const BottomBar = ({ activeElement }: BottomBarProps) => {
           activeElement === "foto" ? "active" : ""
         }`}
       >
-        <Link href="/foto">Foto</Link>
+        <Link href="/foto">Photo</Link>
       </div>
       <div
         className={`bottom-bar__item big ${

@@ -1,8 +1,9 @@
-import { QuerySnapshot } from "firebase/firestore";
+import { QueryDocumentSnapshot, QuerySnapshot } from "firebase/firestore";
 import Masonry from "react-responsive-masonry";
 import { useEffect, useMemo, useState } from "react";
 import VideoPreview from "../components/VideoPreview";
 import Spinner from "../components/Spinner";
+import Lightbox from "../components/Lightbox";
 
 type VideoPageProps = {
   collectionValue: QuerySnapshot | undefined;
@@ -11,6 +12,9 @@ type VideoPageProps = {
 
 const Video = ({ collectionValue, loading }: VideoPageProps) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [currentVideo, setCurrentVideo] =
+    useState<QueryDocumentSnapshot | null>(null);
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -47,10 +51,21 @@ const Video = ({ collectionValue, loading }: VideoPageProps) => {
                 key={doc.id}
                 path={doc.data().path}
                 docRef={doc.ref}
+                onClick={() => setCurrentVideo(doc)}
               />
             );
           })}
         </Masonry>
+      )}
+      {currentVideo && (
+        <Lightbox onClose={() => setCurrentVideo(null)}>
+          <VideoPreview
+            key={currentVideo.id}
+            path={currentVideo.data().path}
+            docRef={currentVideo.ref}
+            fullScreen
+          />
+        </Lightbox>
       )}
     </div>
   );
